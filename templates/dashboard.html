@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>Your Contacts</h2>
+
+<form method="get" class="inline">
+  <input type="search" name="q" value="{{ query }}" placeholder="Search by name, phone, email">
+  <button class="btn secondary" type="submit">Search</button>
+  {% if query %}<a class="btn" href="{{ url_for('dashboard') }}">Clear</a>{% endif %}
+</form>
+
+<div class="actions">
+  <a class="btn" href="{{ url_for('export_all') }}">Export All to PDF</a>
+</div>
+
+<div class="grid">
+  {% for c in contacts %}
+    <div class="card">
+      <h3>{{ c.name }}</h3>
+      <p><strong>Phone Number:</strong> {{ c.phone or '—' }}</p>
+      <p><strong>Email Address:</strong> {{ c.email or '—' }}</p>
+      <div class="row">
+        <form method="post" action="{{ url_for('edit_contact', id=c.id) }}" class="form-inline">
+          <input type="text" name="name" value="{{ c.name }}" required>
+          <input type="text" name="phone" value="{{ c.phone }}">
+          <input type="email" name="email" value="{{ c.email }}">
+          <button class="btn" type="submit">Save</button>
+        </form>
+      </div>
+      <div class="row">
+        <form method="post" action="{{ url_for('delete_contact', id=c.id) }}" onsubmit="return confirm('Delete this contact?')">
+          <button class="btn danger" type="submit">Delete</button>
+        </form>
+        <a class="btn secondary" href="{{ url_for('export_one', id=c.id) }}">PDF</a>
+      </div>
+      <small class="muted">Added: {{ c.created_at }}</small>
+    </div>
+  {% else %}
+    <p>No contacts yet. Add one below.</p>
+  {% endfor %}
+</div>
+
+<h3>Add Contact</h3>
+<form method="post" action="{{ url_for('add_contact') }}" class="card form">
+  <div class="row">
+    <label>Name
+      <input type="text" name="name" required>
+    </label>
+    <label>Phone Number
+      <input type="text" name="phone">
+    </label>
+    <label>Email Address
+      <input type="email" name="email">
+    </label>
+  </div>
+  <button class="btn" type="submit">Add</button>
+</form>
+{% endblock %}

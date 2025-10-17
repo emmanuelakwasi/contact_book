@@ -1,0 +1,1 @@
+function toggleTheme(e){ if(e) e.preventDefault(); fetch('/theme',{method:'POST'}).then(()=>location.reload()); }

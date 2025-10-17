@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
+<section class="hero">
+  <h1>Contact Book</h1>
+  <p>Let's manage your contacts for you.</p>
+  <div class="actions">
+    <a class="btn" href="{{ url_for('signup') }}">Sign Up</a>
+    <a class="btn secondary" href="{{ url_for('login') }}">Already have an account?</a>
+  </div>
+</section>
+{% endblock %}
